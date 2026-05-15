@@ -1,0 +1,9 @@
+# Dependencies
+node_modules/
+
+# Environment Variables (보안을 위해 절대 업로드 금지)
+.env
+
+# OS Files
+.DS_Store
+Thumbs.db

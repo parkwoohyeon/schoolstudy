@@ -1,0 +1,340 @@
+/* 
+   Apple 스타일의 미니멀 디자인 시스템을 반영한 CSS입니다.
+   깨끗한 배경과 여백, 그리고 부드러운 애니메이션을 강조합니다.
+*/
+
+:root {
+    --primary-blue: #0066cc;
+    --bg-white: #ffffff;
+    --parchment: #f5f5f7;
+    --dark-surface: #272729;
+    --text-color: #1d1d1f;
+    --text-secondary: #86868b;
+    --radius-pill: 9999px;
+    --radius-card: 24px;
+    --transition-speed: 0.3s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-white);
+    color: var(--text-color);
+    line-height: 1.5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+/* 헤더 스타일 */
+header {
+    margin-bottom: 60px;
+}
+
+header h1 {
+    font-size: 48px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+}
+
+.subtitle {
+    font-size: 19px;
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+/* 입력 카드 섹션 */
+.input-card {
+    background: var(--parchment);
+    border-radius: var(--radius-card);
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+textarea {
+    width: 100%;
+    height: 200px;
+    padding: 20px;
+    border: none;
+    border-radius: 16px;
+    background: white;
+    font-family: inherit;
+    font-size: 17px;
+    resize: none;
+    outline: none;
+    color: var(--text-color);
+    margin-bottom: 10px;
+    transition: box-shadow var(--transition-speed);
+}
+
+textarea:focus {
+    box-shadow: 0 0 0 2px var(--primary-blue);
+}
+
+.char-count {
+    text-align: right;
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+}
+
+/* 공통 버튼 스타일 */
+.pill-button {
+    display: inline-block;
+    padding: 14px 40px;
+    font-size: 17px;
+    font-weight: 500;
+    border-radius: var(--radius-pill);
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+    background-color: var(--primary-blue);
+    color: white;
+}
+
+.pill-button:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+.pill-button:active {
+    transform: scale(0.95);
+}
+
+.pill-button.secondary {
+    background-color: var(--parchment);
+    color: var(--text-color);
+}
+
+/* 푸터 스타일 */
+footer {
+    margin-top: 60px;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+/* 오버레이 (로딩 및 모달 배경) */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity var(--transition-speed);
+}
+
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+    display: none;
+}
+
+/* 로딩 스피너 */
+.loader-container {
+    text-align: center;
+    color: white;
+}
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 16px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* 모달 콘텐츠 스타일 */
+.modal-content {
+    background: white;
+    width: 90%;
+    max-width: 500px;
+    padding: 40px;
+    border-radius: var(--radius-card);
+    text-align: left;
+    transform: translateY(20px);
+    transition: transform var(--transition-speed);
+}
+
+#resultModal:not(.hidden) .modal-content {
+    transform: translateY(0);
+}
+
+.modal-content h2 {
+    font-size: 28px;
+    margin-bottom: 24px;
+}
+
+.result-body {
+    margin-bottom: 32px;
+}
+
+.sentiment-badge {
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: var(--radius-pill);
+    font-weight: 600;
+    font-size: 20px;
+    margin-bottom: 20px;
+    background: var(--parchment);
+}
+
+.confidence-container {
+    margin-bottom: 24px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--parchment);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--primary-blue);
+    width: 0%;
+    transition: width 1s ease-out;
+}
+
+.reason-container h3 {
+    font-size: 17px;
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+}
+
+#analysisReason {
+    font-size: 16px;
+    color: var(--text-color);
+    background: var(--parchment);
+    padding: 16px;
+    border-radius: 12px;
+}
+
+/* 모바일 반응형 */
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 32px;
+    }
+    .modal-content {
+        padding: 30px 20px;
+    }
+}
+
+/* --- 분석 히스토리 스타일 (추가됨) --- */
+.history-section {
+    margin-top: 60px;
+    text-align: left;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-header h2 {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.text-button {
+    background: none;
+    border: none;
+    color: var(--primary-blue);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+
+.text-button:hover {
+    background: rgba(0, 102, 204, 0.1);
+}
+
+.history-list {
+    display: grid;
+    gap: 12px;
+}
+
+.history-item {
+    background: var(--parchment);
+    padding: 20px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.history-item:hover {
+    transform: scale(1.02);
+    background: #eeeef0;
+}
+
+.history-content {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.history-text {
+    font-size: 16px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 400px;
+}
+
+.history-date {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+.history-badge {
+    padding: 6px 14px;
+    border-radius: var(--radius-pill);
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.empty-msg {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-secondary);
+    font-style: italic;
+}
