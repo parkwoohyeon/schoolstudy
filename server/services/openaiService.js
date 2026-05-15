@@ -7,9 +7,12 @@ const { OpenAI } = require('openai');
 require('dotenv').config();
 
 // OpenAI 클라이언트 초기화
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+let openai;
+if (process.env.OPENAI_API_KEY) {
+  openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+}
 
 /**
  * 텍스트 감성 분석 수행 함수
@@ -18,6 +21,9 @@ const openai = new OpenAI({
  */
 async function analyzeSentiment(text) {
   try {
+    if (!openai) {
+      throw new Error('OpenAI API 키가 설정되지 않았습니다. 환경 변수를 확인해 주세요.');
+    }
     const prompt = `
 다음 문장의 감정을 분석해줘.
 

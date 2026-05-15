@@ -10,11 +10,18 @@ const { createClient } = require('@supabase/supabase-js');
 const crypto = require('crypto');
 require('dotenv').config();
 
-// Supabase 초기화
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_ANON_KEY
-);
+// Supabase 초기화 (환경 변수 확인 후 생성)
+let supabase;
+try {
+  if (process.env.SUPABASE_URL && process.env.SUPABASE_ANON_KEY) {
+    supabase = createClient(
+      process.env.SUPABASE_URL,
+      process.env.SUPABASE_ANON_KEY
+    );
+  }
+} catch (e) {
+  console.error('Supabase 초기화 실패:', e.message);
+}
 
 // 암호화 설정 (보안 규칙 준수)
 const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || 'default_secret_key_32_chars_long!!';
@@ -54,6 +61,9 @@ function decrypt(text) {
 // GET /api/analyze - 히스토리 목록 조회 (추가됨)
 router.get('/', async (req, res) => {
   try {
+    if (!supabase) {
+      return res.status(500).json({ success: false, message: 'DB 연결 설정이 되지 않았습니다. 환경 변수를 확인해 주세요.' });
+    }
     // 1. Supabase에서 최신순으로 10개 가져오기
     const { data, error } = await supabase
       .from('sentiment_logs')
@@ -90,6 +100,10 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const { text } = req.body;
+
+    if (!supabase) {
+      return res.status(500).json({ success: false, message: 'DB 연결 설정이 되지 않았습니다. 환경 변수를 확인해 주세요.' });
+    }
 
     if (!text || text.trim() === '') {
       return res.status(400).json({ success: false, message: '분석할 텍스트를 입력해 주세요.' });

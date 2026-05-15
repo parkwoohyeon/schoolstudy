@@ -13,6 +13,14 @@ const analyzeRouter = require('./routes/analyze');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// 환경 변수 체크 (배포 환경에서 누락 확인용)
+const requiredEnv = ['OPENAI_API_KEY', 'SUPABASE_URL', 'SUPABASE_ANON_KEY', 'ENCRYPTION_KEY'];
+requiredEnv.forEach(env => {
+  if (!process.env[env]) {
+    console.warn(`⚠️ Warning: Environment variable ${env} is missing!`);
+  }
+});
+
 // 미들웨어 설정
 app.use(cors()); // 교차 출처 리소스 공유 허용
 app.use(express.json()); // JSON 본문 파싱 허용
