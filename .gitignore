@@ -6,4 +6,6 @@ node_modules/
 
 # OS Files
 .DS_Store
+dist/
 Thumbs.db
+.vercel
